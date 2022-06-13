@@ -19,20 +19,18 @@ struct WeatherManager {
         
         let session = URLSession(configuration: .default)
         
-        let task = session.dataTask(with: url, completionHandler: handler(data:response:error:))
-        
-        task.resume()// kenapa bahasanya resume? karena task ini sifatnya suspended/ditangguhkan same to pause, makanya method buat dimulainya namanya resume
-    }
-    
-    func handler(data: Data?, response: URLResponse?, error: Error?) {
-        if error != nil {
-            print(error ?? "")
-            return
+        let task = session.dataTask(with: url) { data, response, error in
+            if error != nil {
+                print(error ?? "")
+                return
+            }
+            
+            guard let safeData = data else {return}
+            
+            let dataString = String(data: safeData, encoding: .utf8)
+            print(dataString ?? "")
         }
         
-        guard let safeData = data else {return}
-        
-        let dataString = String(data: safeData, encoding: .utf8)
-        print(dataString ?? "")
+        task.resume()// kenapa bahasanya resume? karena task ini sifatnya suspended/ditangguhkan same to pause, makanya method buat dimulainya namanya resume
     }
 }
