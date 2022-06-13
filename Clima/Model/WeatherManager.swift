@@ -27,10 +27,22 @@ struct WeatherManager {
             
             guard let safeData = data else {return}
             
-            let dataString = String(data: safeData, encoding: .utf8)
-            print(dataString ?? "")
+            parseJSON(weatherData: safeData)
         }
         
         task.resume()// kenapa bahasanya resume? karena task ini sifatnya suspended/ditangguhkan same to pause, makanya method buat dimulainya namanya resume
+    }
+    
+    func parseJSON(weatherData: Data) {
+        let decoder = JSONDecoder()
+        
+        do {
+            let decodedData = try decoder.decode(WeatherData.self, from: weatherData)
+            print(decodedData.name)
+            print(decodedData.main.temp)
+            print(decodedData.weather[0].description)
+        } catch {
+            print(error)
+        }
     }
 }

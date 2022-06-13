@@ -48,7 +48,6 @@ class WeatherViewController: UIViewController, UITextFieldDelegate {
         }
         
         weatherManager.fetchCity(cityText)
-        print(cityText)
         searchTextField.text = ""
     }
     
