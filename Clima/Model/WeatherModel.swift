@@ -12,6 +12,10 @@ struct WeatherModel {
     let cityName: String
     let temperature: Double
     
+    var temperatureString: String {
+        return String(round(temperature * 10) / 10)
+    }
+    
     var condition: String {
         switch weatherID {
         case 200...232:
@@ -30,7 +34,6 @@ struct WeatherModel {
             return "cloud.sun"
         default:
             return "cloud"
-            
         }
     }
 }
