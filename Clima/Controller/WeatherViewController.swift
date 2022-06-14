@@ -53,5 +53,6 @@ class WeatherViewController: UIViewController, UITextFieldDelegate {
     
     func updateUI() {
         searchTextField.placeholder = "Search City"
+//        conditionImageView.image = UIImage(systemName: "")
     }
 }
