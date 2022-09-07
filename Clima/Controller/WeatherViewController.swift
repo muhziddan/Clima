@@ -39,7 +39,7 @@ class WeatherViewController: UIViewController, UITextFieldDelegate {
             return true
         } else {
             textField.placeholder = "Type a City"
-            return false
+            return true
         }
     }
     
@@ -49,11 +49,13 @@ class WeatherViewController: UIViewController, UITextFieldDelegate {
             searchTextField.text = ""
             return
         }
-        let trimmedText = cityText.trimmingCharacters(in: .whitespaces)
         
-//        if cityText == "" {
-//            return
-//        }
+        if cityText == "" {
+            searchTextField.text = ""
+            return
+        }
+        
+        let trimmedText = cityText.trimmingCharacters(in: .whitespaces)
         
         weatherManager.fetchCity(trimmedText)
         
