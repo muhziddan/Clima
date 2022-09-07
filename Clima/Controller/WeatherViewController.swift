@@ -22,7 +22,7 @@ class WeatherViewController: UIViewController, UITextFieldDelegate {
         
         weatherManager.delegate = self
         searchTextField.delegate = self
-//        updateUI()
+        updateUI()
     }
     
     @IBAction func searchPressed(_ sender: UIButton) {
@@ -59,21 +59,21 @@ class WeatherViewController: UIViewController, UITextFieldDelegate {
         
         weatherManager.fetchCity(trimmedText)
         
-//        updateUI()
+        updateUI()
         searchTextField.text = ""
     }
     
-//    func updateUI() {
-////        if let filledData = weatherModel {
-////            print("called inside")
-////            temperatureLabel.text = filledData.temperatureString
-////            cityLabel.text = filledData.cityName
-////        }
-//
-//        searchTextField.placeholder = "Search City"
-//
-////        conditionImageView.image = UIImage(systemName: "")
-//    }
+    func updateUI() {
+//        if let filledData = weatherModel {
+//            print("called inside")
+//            temperatureLabel.text = filledData.temperatureString
+//            cityLabel.text = filledData.cityName
+//        }
+
+        searchTextField.placeholder = "Search City"
+
+//        conditionImageView.image = UIImage(systemName: "")
+    }
 }
 
 extension WeatherViewController: WeatherDataDelegate {
