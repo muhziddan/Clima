@@ -8,7 +8,8 @@
 import Foundation
 
 protocol WeatherDataDelegate {
-    func didUpdateWeather(weather: WeatherModel)
+    func didUpdateWeather(_ weatherManager: WeatherManager, weather: WeatherModel)
+    func didFailWithError(error: Error)
 }
 
 struct WeatherManager {
@@ -28,21 +29,21 @@ struct WeatherManager {
         
         let task = session.dataTask(with: url) { data, response, error in
             if error != nil {
-                print(error ?? "")
+                delegate?.didFailWithError(error: error!)
                 return
             }
             
             guard let safeData = data else {return}
             
-            guard let weatherData = parseJSON(weatherData: safeData) else {return}
+            guard let weatherData = parseJSON(safeData) else {return}
             
-            delegate?.didUpdateWeather(weather: weatherData)
+            delegate?.didUpdateWeather(self, weather: weatherData)
         }
         
         task.resume()// kenapa bahasanya resume? karena task ini sifatnya suspended/ditangguhkan same to pause, makanya method buat dimulainya namanya resume
     }
     
-    func parseJSON(weatherData: Data) -> WeatherModel? {
+    func parseJSON(_ weatherData: Data) -> WeatherModel? {
         let decoder = JSONDecoder()
         
         do {
@@ -55,7 +56,7 @@ struct WeatherManager {
             
             return weather
         } catch {
-            print(error)
+            delegate?.didFailWithError(error: error)
             return nil
         }
     }
