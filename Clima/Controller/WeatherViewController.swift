@@ -15,11 +15,13 @@ class WeatherViewController: UIViewController, UITextFieldDelegate {
     @IBOutlet weak var searchTextField: UITextField!
     
     var weatherManager = WeatherManager()
+    var weatherModel: WeatherModel?
     
     override func viewDidLoad() {
         super.viewDidLoad()
         
         searchTextField.delegate = self
+        weatherManager.delegate = self
         updateUI()
     }
     
@@ -33,26 +35,41 @@ class WeatherViewController: UIViewController, UITextFieldDelegate {
     }
     
     func textFieldShouldEndEditing(_ textField: UITextField) -> Bool {
-        updateUI()
         if textField.text != "" {
             return true
         } else {
-            searchTextField.placeholder = "Type City"
+            textField.placeholder = "Type a City"
             return true
         }
     }
     
     func textFieldDidEndEditing(_ textField: UITextField) {
-        guard let cityText = textField.text else {
-            return
-        }
+        
+        guard let cityText = textField.text else {return}
+        
+        if cityText == "" {return}
         
         weatherManager.fetchCity(cityText)
+        
+        guard let data = weatherModel else {return}
+        print(data)
+        
+        updateUI()
         searchTextField.text = ""
     }
     
     func updateUI() {
         searchTextField.placeholder = "Search City"
+        
 //        conditionImageView.image = UIImage(systemName: "")
     }
+}
+
+extension WeatherViewController: WeatherDataDelegate {
+    
+    func didUpdateWeather(weather: WeatherModel) {
+        weatherModel = weather
+    }
+    
+    
 }

@@ -7,7 +7,13 @@
 
 import Foundation
 
+protocol WeatherDataDelegate {
+    func didUpdateWeather(weather: WeatherModel)
+}
+
 struct WeatherManager {
+    
+    var delegate: WeatherDataDelegate?
     
     func fetchCity(_ cityName: String) {
         let url = "https://api.openweathermap.org/data/2.5/weather?q=\(cityName)&appid=3beb2ead23c5bab59e6c5233f8cbf529&units=metric"
@@ -15,6 +21,7 @@ struct WeatherManager {
     }
     
     func request(_ urlInput: String) {
+        
         guard let url = URL(string: urlInput) else {return}
         
         let session = URLSession(configuration: .default)
@@ -27,13 +34,15 @@ struct WeatherManager {
             
             guard let safeData = data else {return}
             
-            parseJSON(weatherData: safeData)
+            guard let weatherData = parseJSON(weatherData: safeData) else {return}
+            
+            delegate?.didUpdateWeather(weather: weatherData)
         }
         
         task.resume()// kenapa bahasanya resume? karena task ini sifatnya suspended/ditangguhkan same to pause, makanya method buat dimulainya namanya resume
     }
     
-    func parseJSON(weatherData: Data) {
+    func parseJSON(weatherData: Data) -> WeatherModel? {
         let decoder = JSONDecoder()
         
         do {
@@ -44,9 +53,10 @@ struct WeatherManager {
             
             let weather = WeatherModel(weatherID: id, cityName: name, temperature: temperature)
             
-            print(weather.temperatureString)
+            return weather
         } catch {
             print(error)
+            return nil
         }
     }
 }
