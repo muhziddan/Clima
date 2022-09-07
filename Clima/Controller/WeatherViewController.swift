@@ -15,14 +15,14 @@ class WeatherViewController: UIViewController, UITextFieldDelegate {
     @IBOutlet weak var searchTextField: UITextField!
     
     var weatherManager = WeatherManager()
-    var weatherModel: WeatherModel?
+//    var weatherModel: WeatherModel?
     
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        searchTextField.delegate = self
         weatherManager.delegate = self
-        updateUI()
+        searchTextField.delegate = self
+//        updateUI()
     }
     
     @IBAction func searchPressed(_ sender: UIButton) {
@@ -39,36 +39,49 @@ class WeatherViewController: UIViewController, UITextFieldDelegate {
             return true
         } else {
             textField.placeholder = "Type a City"
-            return true
+            return false
         }
     }
     
     func textFieldDidEndEditing(_ textField: UITextField) {
         
-        guard let cityText = textField.text else {return}
+        guard let cityText = searchTextField.text else {
+            searchTextField.text = ""
+            return
+        }
+        let trimmedText = cityText.trimmingCharacters(in: .whitespaces)
         
-        if cityText == "" {return}
+//        if cityText == "" {
+//            return
+//        }
         
-        weatherManager.fetchCity(cityText)
+        weatherManager.fetchCity(trimmedText)
         
-        guard let data = weatherModel else {return}
-        print(data)
-        
-        updateUI()
+//        guard let data = weatherModel else {return}
+//        print(data.condition)
+//        updateUI()
         searchTextField.text = ""
     }
     
-    func updateUI() {
-        searchTextField.placeholder = "Search City"
-        
-//        conditionImageView.image = UIImage(systemName: "")
-    }
+//    func updateUI() {
+////        if let filledData = weatherModel {
+////            print("called inside")
+////            temperatureLabel.text = filledData.temperatureString
+////            cityLabel.text = filledData.cityName
+////        }
+//
+//        searchTextField.placeholder = "Search City"
+//
+////        conditionImageView.image = UIImage(systemName: "")
+//    }
 }
 
 extension WeatherViewController: WeatherDataDelegate {
     
     func didUpdateWeather(weather: WeatherModel) {
-        weatherModel = weather
+        print(weather)
+//        weatherModel = weather
+//        print(weatherModel)
     }
     
     
