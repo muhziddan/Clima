@@ -15,7 +15,7 @@ class WeatherViewController: UIViewController, UITextFieldDelegate {
     @IBOutlet weak var searchTextField: UITextField!
     
     var weatherManager = WeatherManager()
-//    var weatherModel: WeatherModel?
+    var weatherModel: WeatherModel?
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -59,8 +59,6 @@ class WeatherViewController: UIViewController, UITextFieldDelegate {
         
         weatherManager.fetchCity(trimmedText)
         
-//        guard let data = weatherModel else {return}
-//        print(data.condition)
 //        updateUI()
         searchTextField.text = ""
     }
@@ -81,9 +79,8 @@ class WeatherViewController: UIViewController, UITextFieldDelegate {
 extension WeatherViewController: WeatherDataDelegate {
     
     func didUpdateWeather(weather: WeatherModel) {
-        print(weather)
-//        weatherModel = weather
-//        print(weatherModel)
+        weatherModel = weather
+        print(weatherModel)
     }
     
     
