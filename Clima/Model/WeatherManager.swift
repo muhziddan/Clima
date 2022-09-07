@@ -40,7 +40,7 @@ struct WeatherManager {
             delegate?.didUpdateWeather(self, weather: weatherData)
         }
         
-        task.resume()// kenapa bahasanya resume? karena task ini sifatnya suspended/ditangguhkan same to pause, makanya method buat dimulainya namanya resume
+        task.resume()
     }
     
     func parseJSON(_ weatherData: Data) -> WeatherModel? {
