@@ -39,6 +39,10 @@ class WeatherViewController: UIViewController {
         searchTextField.placeholder = "Search City"
     }
     
+    @IBAction func currentLocationPressed(_ sender: UIButton) {
+        print("pressed")
+    }
+    
     
 }
 
