@@ -78,7 +78,7 @@ extension WeatherViewController: UITextFieldDelegate {
         
         let trimmedText = cityText.trimmingCharacters(in: .whitespaces)
         
-        weatherManager.fetchCity(trimmedText)
+        weatherManager.fetchWeather(trimmedText)
         searchTextField.text = ""
     }
     
@@ -116,9 +116,13 @@ extension WeatherViewController: CLLocationManagerDelegate {
     }
     
     func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
-        if locations.first != nil {
-            print(locations)
-        }
+        
+        guard let currentLocation = locations.last else {return}
+        
+        let latitude = currentLocation.coordinate.latitude
+        let longitude = currentLocation.coordinate.longitude
+        
+        weatherManager.fetchWeather(latitude: latitude, longitude: longitude)
     }
     
     
