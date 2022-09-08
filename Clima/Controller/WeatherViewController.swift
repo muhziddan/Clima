@@ -23,8 +23,6 @@ class WeatherViewController: UIViewController {
         super.viewDidLoad()
         
         locationManager.delegate = self
-        
-        
         weatherManager.delegate = self
         searchTextField.delegate = self
     }
